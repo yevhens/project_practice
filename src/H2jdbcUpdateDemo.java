@@ -17,10 +17,6 @@ public class H2jdbcUpdateDemo {
 
 
 
-
-
-
-
     public static void main(String[] args) {
         Connection conn = null;
         Statement stmt = null;
@@ -39,7 +35,7 @@ public class H2jdbcUpdateDemo {
             // STEP 3: Execute a query
             System.out.println("Connected database successfully...");
             stmt = conn.createStatement();
-            String sql = "UPDATE Registration " + "SET age = 50 WHERE id in (100, 101)";
+            String sql = "UPDATE Registration " + "SET age = 70 WHERE id in (100, 101,103)";
             stmt.executeUpdate(sql);
 
             // Now you can extract all the records
