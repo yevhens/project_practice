@@ -25,17 +25,21 @@ public class H2jdbcUpdateDemo {
         Connection conn = null;
         Statement stmt = null;
         try {
-            // STEP 1: Register JDBC driver
-            Class.forName(JDBC_DRIVER);
+            // STEP 1: Register JDBCdatasource
+            JdbcDataSource ds=new JdbcDataSource();
+            ds.setURL(DB_URL);
+            ds.setUser(USER);
+            ds.setPassword(PASS);
+
 
             // STEP 2: Open a connection
             System.out.println("Connecting to a database...");
-            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+            conn=ds.getConnection();
 
             // STEP 3: Execute a query
             System.out.println("Connected database successfully...");
             stmt = conn.createStatement();
-            String sql = "UPDATE Registration " + "SET age = 30 WHERE id in (100, 101)";
+            String sql = "UPDATE Registration " + "SET age = 50 WHERE id in (100, 101)";
             stmt.executeUpdate(sql);
 
             // Now you can extract all the records
