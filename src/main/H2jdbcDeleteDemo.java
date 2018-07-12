@@ -1,45 +1,39 @@
-import org.h2.jdbcx.JdbcDataSource;
+package main;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import org.h2.jdbcx.JdbcDataSource;
 
-
-public class H2jdbcUpdateDemo {
-    // JDBC driver name and database URL and database credentials
+public class H2jdbcDeleteDemo {
+    // JDBC driver name and database URL
     static final String JDBC_DRIVER = "org.h2.Driver";
     static final String DB_URL = "jdbc:h2:~/test";
+
+    // Database credentials
     static final String USER = "sa";
     static final String PASS = "";
-
-
 
     public static void main(String[] args) {
         Connection conn = null;
         Statement stmt = null;
         try {
-            // STEP 1: Register JDBCdatasource
-            JdbcDataSource ds=new JdbcDataSource();
-            ds.setURL(DB_URL);
-            ds.setUser(USER);
-            ds.setPassword(PASS);
-
+            // STEP 1: Register JDBC driver
+            Class.forName(JDBC_DRIVER);
 
             // STEP 2: Open a connection
-            System.out.println("Connecting to a database...");
-            conn=ds.getConnection();
+            System.out.println("Connecting to database...");
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
 
             // STEP 3: Execute a query
-            System.out.println("Connected database successfully...");
+            System.out.println("Creating table in given database...");
             stmt = conn.createStatement();
-            String sql = "UPDATE Registration " + "SET age = 70 WHERE id in (100, 101,103)";
+            String sql = "DELETE FROM Registration " + "WHERE id = 101";
             stmt.executeUpdate(sql);
 
             // Now you can extract all the records
-            // to see the updated records
+            // to see the remaining records
             sql = "SELECT id, first, last, age FROM Registration";
             ResultSet rs = stmt.executeQuery(sql);
 
@@ -77,4 +71,4 @@ public class H2jdbcUpdateDemo {
         } // end try
         System.out.println("Goodbye!");
     }
-} 
+}

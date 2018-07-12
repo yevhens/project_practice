@@ -1,37 +1,39 @@
+package main;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class H2jdbcDeleteDemo {
-    // JDBC driver name and database URL
+
+public class H2jdbcUpdateDemo  {
+    // JDBC driver name and database URL and database credentials
     static final String JDBC_DRIVER = "org.h2.Driver";
     static final String DB_URL = "jdbc:h2:~/test";
-
-    // Database credentials
     static final String USER = "sa";
     static final String PASS = "";
 
+
+
+
+
     public static void main(String[] args) {
-        Connection conn = null;
-        Statement stmt = null;
+
+
+        Statement stmt=null;
+        ConnectionFactory connectionFactory=null;
+        Connection conn=null;
+
         try {
-            // STEP 1: Register JDBC driver
-            Class.forName(JDBC_DRIVER);
-
-            // STEP 2: Open a connection
-            System.out.println("Connecting to database...");
-            conn = DriverManager.getConnection(DB_URL,USER,PASS);
-
+            conn=connectionFactory.getInstance().getConnection();
             // STEP 3: Execute a query
-            System.out.println("Creating table in given database...");
+            System.out.println("Connected database successfully...");
             stmt = conn.createStatement();
-            String sql = "DELETE FROM Registration " + "WHERE id = 101";
+            String sql = "UPDATE Registration " + "SET age = 70 WHERE id in (100, 101,103)";
             stmt.executeUpdate(sql);
 
             // Now you can extract all the records
-            // to see the remaining records
+            // to see the updated records
             sql = "SELECT id, first, last, age FROM Registration";
             ResultSet rs = stmt.executeQuery(sql);
 
@@ -69,4 +71,4 @@ public class H2jdbcDeleteDemo {
         } // end try
         System.out.println("Goodbye!");
     }
-}
+} 
